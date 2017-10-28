@@ -2,6 +2,9 @@
 
 console.info(`running brainGames "Odd One Out" v0`);
 
+/*
+Setting up the array
+*/
 let unknownArray = [];
 
 const getRandomInt = (min, max) => {
@@ -52,10 +55,25 @@ function shuffle(array) {
 shuffledArray = shuffle(unknownArray);
 console.info(shuffledArray);
 
+
+/*
+  Actual function to 'solve the problem' of the odd one out.
+    I created a couple functions to see which one was faster, I added timers to see which function was faster. console logged times to see which was faster. 
+
+    Loop [linear] vs no_loop [non-linear]
+
+    [1] the first 'findTheCulprit_Loop' one was easiest to write and create
+
+    [2] the second function 'culprit_noLoop' was a pain in the ass to create, trying to make it more optimal, was racking my brain to figure out what was wrong, and am still not even sure it is the most optimal way. It is faster than the first function, but not by much. I'll see if I can optimize it even more.
+*/
+
+//function just to log and check answers
 const logTheCulprit = (array, arrayPos) => {
   console.info(`odd number out is ${arrayPos} and is in position ${array.indexOf(arrayPos)+1} of the array`);
 };
-const findTheCulprit_Linear = (array) => {
+
+//  [1] first function with loop, less lines, longer run. loops
+const findTheCulprit_Loop = (array) => {
   for(let j = 0; j < array.length; j++) {
     if(j < 5 && array[j] !== array[j+1] && array[j] !== array[j+2]) {
       logTheCulprit(array, array[j]);
@@ -65,10 +83,55 @@ const findTheCulprit_Linear = (array) => {
   }
 };
 
-console.time(findTheCulprit_Linear);
-findTheCulprit_Linear(shuffledArray);
-console.timeEnd(findTheCulprit_Linear);
+// console.time(findTheCulprit_Loop);
+// findTheCulprit_Loop(shuffledArray);
+// console.timeEnd(findTheCulprit_Loop);
 
-const culprit_nonLin = (array) => {
-  
+
+// [2] second function, longer code, more lines, but faster, no loop
+const culprit_noLoop = (array) => {
+  const a = array[0];
+  const b = array[1];
+  const c = array[2];
+  const d = array[3];
+  const e = array[4];
+  const f = array[5];
+  const g = array[6];
+  if(a + b + c == d + e + f) {
+    logTheCulprit(array, g);
+  } else {
+    if(a + b + g == d + e + f) {
+      logTheCulprit(array, c);
+    } else {
+      if(a == b && b == g) {
+        if(d == e) {
+          logTheCulprit(array, f);
+        } else {
+          if(a == e) {
+            logTheCulprit(array, d);
+          } else {
+            logTheCulprit(array, e);
+          }
+        }
+      } else {
+        if(a == f) {
+          logTheCulprit(array, b);
+        } else {
+          logTheCulprit(array, a);
+        }
+      }
+    }
+  }
 };
+
+//running functions and logging times
+
+// running [1]
+console.time(findTheCulprit_Loop);
+findTheCulprit_Loop(shuffledArray);
+console.timeEnd(findTheCulprit_Loop);
+
+// running [2]
+console.time(culprit_noLoop);
+culprit_noLoop(shuffledArray);
+console.timeEnd(culprit_noLoop);
