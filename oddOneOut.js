@@ -10,9 +10,12 @@ const getRandomInt = (min, max) => {
 };
 
 const pushRandomsToArray = () => {
-  let a = getRandomInt(1,10);
+  let a = getRandomInt(1,100);
   if(unknownArray.length == 1 && a == unknownArray[0]){
     a = getRandomInt(1,10);
+    if(a >= unknownArray[0]) {
+      a = a++;
+    }
   }
   if(unknownArray.length > 1) {
     a = unknownArray[0];
@@ -20,11 +23,11 @@ const pushRandomsToArray = () => {
   unknownArray.push(a);
 };
 
-for(let i = 0; i < 5; i++) {
+for(let i = 0; i < 7; i++) {
   pushRandomsToArray();
 }
 
-console.info(unknownArray);
+// console.info(unknownArray);
 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
@@ -49,19 +52,23 @@ function shuffle(array) {
 shuffledArray = shuffle(unknownArray);
 console.info(shuffledArray);
 
-
+const logTheCulprit = (array, arrayPos) => {
+  console.info(`odd number out is ${arrayPos} and is in position ${array.indexOf(arrayPos)+1} of the array`);
+};
 const findTheCulprit_Linear = (array) => {
   for(let j = 0; j < array.length; j++) {
-    if(array[j] == array[0] && j === 0) {
-      console.info(1);
+    if(j < 5 && array[j] !== array[j+1] && array[j] !== array[j+2]) {
+      logTheCulprit(array, array[j]);
+    } else if (j >= 5 && array[j] !== array[j-1] && array[j] !== array[j-2]){
+      logTheCulprit(array, array[j]);
     }
-    if(j > 0 && array[j] !== array[0]) {
-      console.info(array.indexOf(array[j]) +1);
-    }
-    // if(array[0] == array[j] && array[j] < 1) {
-    //   console.info(1);
-    // }
   }
 };
 
+console.time(findTheCulprit_Linear);
 findTheCulprit_Linear(shuffledArray);
+console.timeEnd(findTheCulprit_Linear);
+
+const culprit_nonLin = (array) => {
+  
+};
