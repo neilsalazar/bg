@@ -58,7 +58,7 @@ console.info(shuffledArray);
 
 /*
   Actual function to 'solve the problem' of the odd one out.
-    I created a couple functions to see which one was faster, I added timers to see which function was faster. console logged times to see which was faster. 
+    I created a couple functions to see which one was faster, I added timers to see which function was faster. console logged times to see which was faster.
 
     Loop [linear] vs no_loop [non-linear]
 
