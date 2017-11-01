@@ -14,44 +14,81 @@
       text-align: center;
     }
     .stopLight {
-      width: 25%;
       margin: auto;
+      border: solid;
+      text-align: center;
+      width: 11%;
+      border-radius: 23px;
+      background: #93AFCC;
     }
     .stopLight div {
       width: 100px;
       height: 100px;
-      margin: 10px;
+      margin: 10px auto;
+      border: solid 2px black;
       border-radius: 50%;
+      /*opacity: 0;*/
+      background: black;
     }
-    .redLight {
-      background: red;
-      animation: faded 3s ease-in-out 0s infinite;
+    .redLight.redLight {
+      /*background: red;*/
+      /*animation: faded 3s ease-in-out 0s infinite;*/
     }
     .yellowLight {
-      background: yellow;
-      animation: faded 3s ease-in-out 3s infinite;
+      /*background: yellow;*/
+      /*animation: faded 3s ease-in-out 3s infinite;*/
     }
     .greenLight {
-      background: green;
-      animation: faded 3s ease-in-out 6s infinite;
+      /*background: green;*/
+      /*animation: faded 3s ease-in-out 6s infinite;*/
     }
   </style>
   <body>
 
     <div class="stopLight">
-      <div class="redLight">
+      <div class="redLight" data-color="red">
 
       </div>
-      <div class="yellowLight">
+      <div class="yellowLight" data-color="yellow">
 
       </div>
-      <div class="greenLight">
+      <div class="greenLight" data-color="green">
 
       </div>
     </div>
 
     <script type="text/javascript">
+      let lights = document.getElementsByClassName('stopLight')[0].children;
+      // console.info(lights);
 
+      let i = 0;
+      let nlc;
+      const signal = (l) => {
+        // console.info(i);
+        let lc = l[i].dataset.color;
+        // console.info(lc);
+        l[i].style.background = lc;
+
+        if(i == 2) {
+          nlc = l[0].dataset.color;
+        } else {
+          nlc = l[i+1].dataset.color
+        }
+        setTimeout(function() {
+          l[i].style.background = 'black'
+          if(i == 2) {
+            l[0].style.background = nlc
+          } else {
+            l[i+1].style.background = nlc;
+          }
+          i++
+          if(i > l.length -1) {
+            i = 0;
+          }
+        },3000)
+      }
+      signal(lights)
+      const signalInt = setInterval(function(){signal(lights)},3000);
     </script>
   </body>
 </html>
