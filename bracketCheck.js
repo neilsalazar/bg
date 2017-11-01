@@ -5,11 +5,13 @@ const closeBrack = [')','}',']','>'];
 
 const matchingBracketString = '({[<>]})';
 const misMatchingString = '{()[{>)})';
+const newStr = '([[][][[[]]]]{{}})()';
 
 bracketStringToCheck = (matchingBracketString) => {
   const bracketArray = matchingBracketString.split('');
   console.info(bracketArray);
-  setUpBracketArray(bracketArray, checkBracket);
+  // setUpBracketArray(bracketArray, checkBracket);
+  checkBracketV2(bracketArray);
 };
 
 //set up bracket array to check
@@ -27,7 +29,7 @@ setUpBracketArray = (bracketArray, callback) => {
       bracketIndexArr.push(closeBracketIndex);
     }
   }
-  // console.info(bracketIndexArr);
+  console.info(bracketIndexArr);
   callback(bracketIndexArr);
 };
 
@@ -42,8 +44,41 @@ checkBracket = (bracketIndexArr) => {
   }
 };
 
-console.info(`matching stringssssss`);
-bracketStringToCheck(matchingBracketString); // this will check a correctly matching bracket string
+//check bracket version 2
+checkBracketV2 = (bracketIndexArr) => {
+  for(let k = 0; k < bracketIndexArr.length; k++) {
+    if(openBrack.indexOf(bracketIndexArr[k]) > -1) {
+      let openIndex = openBrack.indexOf(bracketIndexArr[k]);
+      // console.info(openIndex);
+      if(openIndex == closeBrack.indexOf(bracketIndexArr[k+1])) {
+        console.info(`I. index: ${k} / ${bracketIndexArr.length-1} is closed @ ${k+1}`);
+      } else {
+        if(openIndex == closeBrack.indexOf(bracketIndexArr[bracketIndexArr.length -1])) {
+          console.info(`II. index: ${k} / ${bracketIndexArr.length-1} is closed  @ ${bracketIndexArr.length -1}`);
+        } else {
+          let l = bracketIndexArr.length;
+          checkDeeper = () => {
+            if(openIndex !== closeBrack.indexOf(bracketIndexArr[l])) {
+              l--;
+              checkDeeper();
+            } else if (openIndex == closeBrack.indexOf(bracketIndexArr[l])) {
+              console.info(`III. index: ${k} / ${bracketIndexArr.length-1} is closed @ ${l}`);
+            } else {
+              console.info(`no match`);
+            }
+          };
+          checkDeeper();
+        }
+        // console.info('still looking for close bracket');
+      }
+    }
+  }
+};
 
-console.info('misssssmattching stringssss');
-bracketStringToCheck(misMatchingString); // this is the mismatch string
+// console.info(`matching stringssssss`);
+// bracketStringToCheck(matchingBracketString); // this will check a correctly matching bracket string
+
+// console.info('misssssmattching stringssss');
+// bracketStringToCheck(misMatchingString); // this is the mismatch string
+
+bracketStringToCheck(newStr); // this is the mismatch string
