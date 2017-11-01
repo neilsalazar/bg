@@ -61,7 +61,7 @@
       let lights = document.getElementsByClassName('stopLight')[0].children;
       // console.info(lights);
 
-      let i = 0;
+      let i = lights.length -1;
       let nlc;
       const signal = (l) => {
         // console.info(i);
@@ -69,26 +69,64 @@
         // console.info(lc);
         l[i].style.background = lc;
 
-        if(i == 2) {
-          nlc = l[0].dataset.color;
+        if(i == 0) {
+          nlc = l[l.length-1].dataset.color;
         } else {
-          nlc = l[i+1].dataset.color
+          nlc = l[i-1].dataset.color
         }
         setTimeout(function() {
           l[i].style.background = 'black'
-          if(i == 2) {
-            l[0].style.background = nlc
+          if(i == 0) {
+            l[l.length-1].style.background = nlc
           } else {
-            l[i+1].style.background = nlc;
+            l[i-1].style.background = nlc;
           }
-          i++
-          if(i > l.length -1) {
-            i = 0;
+          i--
+          if(i < 0) {
+            i = lights.length -1;
           }
         },3000)
       }
       signal(lights)
       const signalInt = setInterval(function(){signal(lights)},3000);
     </script>
+
+
+    <style>
+#stoplight div { display:block; width:100px; height:100px; border:1px solid #fff; }
+#red, #yellow, #green { animation-duration:4s }
+#red{ background:#000; animation: redL 12s infinite }
+#yellow{ background:#000; animation: yellowL 12s infinite }
+#green{ background:#000; animation: greenL 12s infinite }
+
+@keyframes greenL {
+  0%{background:green}
+  33%{background:green}
+  34%{background:#000}
+  65%{background:#000}
+  100%{background:#000}
+  }
+@keyframes yellowL{
+  0%{background:#000}
+  33%{background:#000}
+  34%{background:yellow}
+  66%{background:yellow}
+  67%{background:#000}
+  100%{background:#000}
+}
+@keyframes redL{
+  0%{background:#000}
+  66%{background:#000}
+  67%{background:red}
+  99%{background:red}
+  100%{background:#000}
+}
+
+</style>
+<div id="stoplight">
+  <div id="red"></div>
+  <div id="yellow"></div>
+  <div id="green"></div>
+</div>
   </body>
 </html>
